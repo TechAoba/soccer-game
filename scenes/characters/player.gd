@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 enum ControlScheme { CPU, P1, P2 }
+enum State { MOVING, TACKLING }
 
 @export var control_scheme: ControlScheme
 @export var speed: float = 80.0
@@ -9,29 +10,30 @@ enum ControlScheme { CPU, P1, P2 }
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var player_sprite: Sprite2D = %PlayerSprite
 
+var current_state: PlayerState = null
 var heading := Vector2.RIGHT
+var state_factory := PlayerStateFactory.new()
 
+func _ready() -> void:
+	switch_state(State.MOVING)
+	
 
 func _process(_delta: float) -> void:
-	if control_scheme == ControlScheme.CPU:
-		pass # process AI control
-	else:
-		hanle_human_movement()
-	
-	# 根据人物x轴速度，改变人物的朝向
-	set_heading()
 	flip_sprite()
-	# 根据人物速度，调用不同的动画
-	set_movement_animation()
 	# 让玩家移动起来，直接使用move_and_slide()即可
 	move_and_slide()
 
 
-func hanle_human_movement():
-	# 归一化向量
-	var direction := KeyUtils.get_input_vector(control_scheme)
-	velocity = direction * speed
-
+func switch_state(state: State) -> void:
+	if current_state != null:
+		current_state.queue_free()
+	current_state = state_factory.get_fresh_state(state)
+	current_state.setup(self, animation_player)
+	# 将切换状态信号绑定该函数，每次切换状态都将销毁旧状态，创立新状态
+	current_state.state_transition_requested.connect(switch_state.bind())
+	current_state.name = "PlayerStateMachine: " + str(state)
+	call_deferred("add_child", current_state)
+	
 
 func set_movement_animation():
 	if velocity.length() > 0:
