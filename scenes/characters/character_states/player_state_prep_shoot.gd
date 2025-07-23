@@ -20,4 +20,7 @@ func _process(delta: float) -> void:
 		var bonus := ease(ease_time, EASE_REWARD_FACTOR)
 		var shoot_power := player.power * (1 + bonus)
 		shot_direction = shot_direction.normalized()
-		print(shot_direction, shoot_power)
+		# 切换到shoot状态时，传递射门的角度和力度
+		var state_data = PlayerStateData.build().set_shoot_direction(shot_direction).set_shoot_power(shoot_power)
+		transition_state(Player.State.SHOOTING, state_data)
+		

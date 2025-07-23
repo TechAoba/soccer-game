@@ -7,10 +7,14 @@ var ball: Ball = null
 var carrier: Player = null
 var animation_player: AnimationPlayer = null
 var player_detection_area: Area2D = null
+var sprite: Sprite2D = null
 
 func set_up(context_ball: Ball, context_player_detection_area: Area2D
-	, context_carrier: Player, context_animation_player: AnimationPlayer) -> void:
+	, context_carrier: Player, context_animation_player: AnimationPlayer
+	, context_sprite: Sprite2D) -> void:
+		
 	ball = context_ball
 	player_detection_area = context_player_detection_area
 	carrier = context_carrier
 	animation_player = context_animation_player
+	sprite = context_sprite
