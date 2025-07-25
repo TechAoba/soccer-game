@@ -1,6 +1,8 @@
 extends AnimatableBody2D
 class_name Ball
 
+const BOUNCINESS := 0.8
+
 @export var friction_air : float = 32.0
 @export var friction_ground : float = 250.0
 
@@ -48,3 +50,6 @@ func pass_to(destination: Vector2) -> void:
 	velocity = intensity * direction
 	carrier = null
 	switch_state(Ball.State.FREEFORM)
+
+func stop() -> void:
+	velocity = Vector2.ZERO
