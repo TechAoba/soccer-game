@@ -8,12 +8,7 @@ const SHOOT_SPRITE_SCALE := 0.8
 var time_since_shoot := Time.get_ticks_msec()
 
 func _enter_tree() -> void:
-	if ball.velocity.x >= 0:
-		animation_player.play("roll")
-		animation_player.advance(0)
-	else:
-		animation_player.play_backwards("roll")
-		animation_player.advance(0)
+	set_ball_animation_from_velocity()
 	# 竖向缩放，让球更有运动感
 	sprite.scale.y = SHOOT_SPRITE_SCALE
 	ball.height = SHOOT_HEIGHT
