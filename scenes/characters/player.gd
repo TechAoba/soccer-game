@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 enum ControlScheme { CPU, P1, P2 }
-enum State { MOVING, TACKLING, RECOVERING, PREP_SHOOT, SHOOTING }
+enum State { MOVING, TACKLING, RECOVERING, PREP_SHOOT, SHOOTING, PASSING }
 
 @export var ball: Ball
 @export var control_scheme: ControlScheme
@@ -11,6 +11,7 @@ enum State { MOVING, TACKLING, RECOVERING, PREP_SHOOT, SHOOTING }
 
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var player_sprite: Sprite2D = %PlayerSprite
+@onready var teammate_detection_area: Area2D = %TeammateDetectionArea
 
 var current_state: PlayerState = null
 var heading := Vector2.RIGHT
@@ -30,7 +31,7 @@ func switch_state(state: State, state_data: PlayerStateData = PlayerStateData.ne
 	if current_state != null:
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
-	current_state.setup(self, state_data, animation_player, ball)
+	current_state.setup(self, state_data, animation_player, ball, teammate_detection_area)
 	# 将切换状态信号绑定该函数，每次切换状态都将销毁旧状态，创立新状态
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "PlayerStateMachine: " + str(state)
