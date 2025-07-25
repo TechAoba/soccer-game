@@ -10,6 +10,8 @@ var dribble_time: float = 0.0
 var rng := RandomNumberGenerator.new()
 var kick_period: float
 var dribble_intensity: float = DRIBBLE_INTENSITY_LOW
+# 带球时球的摆动值
+var vx := 0.0
 
 
 func _enter_tree() -> void:
@@ -17,8 +19,6 @@ func _enter_tree() -> void:
 	kick_period = TAU / DRIBBLE_FREQUENCY
 
 func _process(delta: float) -> void:
-	var vx := 0.0
-	
 	if carrier.velocity != Vector2.ZERO:
 		# 时间相关变量，控制球的摆动频率
 		dribble_time += delta
