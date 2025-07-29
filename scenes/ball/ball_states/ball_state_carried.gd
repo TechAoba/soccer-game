@@ -13,7 +13,6 @@ var dribble_intensity: float = DRIBBLE_INTENSITY_LOW
 # 带球时球的摆动值
 var vx := 0.0
 
-
 func _enter_tree() -> void:
 	assert(carrier != null, "carrier can not be null!")
 	kick_period = TAU / DRIBBLE_FREQUENCY

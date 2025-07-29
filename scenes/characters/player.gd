@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 enum ControlScheme { CPU, P1, P2 }
-enum State { MOVING, TACKLING, RECOVERING, PREP_SHOOT, SHOOTING, PASSING, HEADER, VELLY_SHOOT, BICYCLE_SHOOT }
+enum State { MOVING, TACKLING, RECOVERING, PREP_SHOOT, SHOOTING, PASSING, HEADER, VELLY_SHOOT, BICYCLE_SHOOT, CHEST_CONTROL }
 
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.CPU : preload("res://assets/art/props/cpu.png"),
@@ -11,6 +11,7 @@ const CONTROL_SCHEME_MAP : Dictionary = {
 }
 
 const GRAVITY := 8.0
+const BALL_CONTROL_HEIGHT_MAX := 10.0
 
 @export var ball: Ball
 @export var control_scheme: ControlScheme
@@ -102,3 +103,7 @@ func set_control_texture() -> void:
 func on_animation_complete() -> void:
 	if current_state != null:
 		current_state.on_animation_complete()
+
+func control_ball() -> void:
+	if ball.height > BALL_CONTROL_HEIGHT_MAX:
+		switch_state(Player.State.CHEST_CONTROL)
