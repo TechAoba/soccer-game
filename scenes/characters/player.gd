@@ -29,6 +29,7 @@ const BALL_CONTROL_HEIGHT_MAX := 10.0
 @onready var player_sprite: Sprite2D = %PlayerSprite
 @onready var teammate_detection_area: Area2D = %TeammateDetectionArea
 
+var ai_behavior : AIBehavior = AIBehavior.new()
 var country := ""
 var current_state: PlayerState = null
 var fullname := ""
@@ -37,12 +38,16 @@ var height := 0.0
 var height_velocity := 0.0
 var role := Player.Role.MIDFIELD
 var skin_color := Player.SkinColor.MEDIUM
+var spawn_position := Vector2.ZERO
 var state_factory := PlayerStateFactory.new()
+var weight_on_duty_steering := 0.0
 
 func _ready() -> void:
 	set_control_texture()
 	switch_state(State.MOVING)
 	set_shader_properties()
+	setup_ai_behavior()
+	spawn_position = position
 	
 
 func _process(delta: float) -> void:
@@ -83,12 +88,18 @@ func process_gravity(delta: float):
 	player_sprite.position = Vector2.UP * height
 
 
+func setup_ai_behavior() -> void:
+	ai_behavior.setup(ball, self)
+	ai_behavior.name = "AI Behavior"
+	add_child(ai_behavior)
+
+
 func switch_state(state: State, state_data: PlayerStateData = PlayerStateData.new()) -> void:
 	if current_state != null:
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
 	current_state.setup(self, state_data, animation_player, ball, 
-		teammate_detection_area, ball_detection_area, own_goal, target_goal)
+		teammate_detection_area, ball_detection_area, own_goal, target_goal, ai_behavior)
 	# 将切换状态信号绑定该函数，每次切换状态都将销毁旧状态，创立新状态
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "PlayerStateMachine: " + str(state)
