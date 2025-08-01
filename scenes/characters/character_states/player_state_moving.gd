@@ -29,7 +29,7 @@ func hanle_human_movement():
 	elif ball.can_air_interact() and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 		if player.velocity == Vector2.ZERO:
 			# 如果玩家面向目标球门 凌空抽射
-			if is_facing_target_goal():
+			if player.is_facing_target_goal():
 				transition_state(Player.State.VELLY_SHOOT)
 			# 背对目标球门 倒挂金钩
 			else:
@@ -39,7 +39,3 @@ func hanle_human_movement():
 	
 	#if player.velocity != Vector2.ZERO and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 		#state_transition_requested.emit(Player.State.TACKLING)
-
-func is_facing_target_goal() -> bool:
-	var direction_to_target_goal := player.position.direction_to(target_goal.position)
-	return player.heading.dot(direction_to_target_goal) > 0
