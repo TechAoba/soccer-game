@@ -11,6 +11,7 @@ var own_goal: Goal = null
 var player: Player = null
 var state_data: PlayerStateData = PlayerStateData.new()
 var target_goal: Goal = null
+var tackle_damage_emiiter_area: Area2D = null
 var teammate_detection_area: Area2D = null
 
 
@@ -19,6 +20,7 @@ func setup(context_player: Player, context_state_data: PlayerStateData,
 		context_teammate_detection_area: Area2D,
 		context_ball_detection_area: Area2D,
 		context_own_goal: Goal, context_target_goal: Goal,
+		context_tackle_damage_emiiter_area: Area2D,
 		context_ai_behavior: AIBehavior) -> void:
 	animation_player = context_animation_player
 	ball = context_ball
@@ -28,6 +30,7 @@ func setup(context_player: Player, context_state_data: PlayerStateData,
 	state_data = context_state_data
 	teammate_detection_area = context_teammate_detection_area
 	target_goal = context_target_goal
+	tackle_damage_emiiter_area = context_tackle_damage_emiiter_area
 	ai_behavior = context_ai_behavior
 
 
