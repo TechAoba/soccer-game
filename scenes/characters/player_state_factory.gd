@@ -6,6 +6,7 @@ func _init() -> void:
 	states = {
 		Player.State.BICYCLE_SHOOT: PlayerStateBicycleShoot, 
 		Player.State.CHEST_CONTROL: PlayerStateChestContorl,
+		Player.State.DIVING: PlayerStateDiving,
 		Player.State.HEADER: PlayerStateHeader,
 		Player.State.HURT: PlayerStateHurt,
 		Player.State.MOVING: PlayerStateMoving,

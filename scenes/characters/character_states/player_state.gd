@@ -40,3 +40,6 @@ func transition_state(new_state: Player.State, state_data: PlayerStateData = Pla
 
 func on_animation_complete() -> void:
 	pass 
+
+func can_carry_body() -> bool:
+	return false

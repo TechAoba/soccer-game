@@ -26,16 +26,19 @@ func hanle_human_movement():
 			transition_state(Player.State.PASSING)
 		elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 			transition_state(Player.State.PREP_SHOOT)
-	elif ball.can_air_interact() and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-		if player.velocity == Vector2.ZERO:
-			# 如果玩家面向目标球门 凌空抽射
-			if player.is_facing_target_goal():
-				transition_state(Player.State.VELLY_SHOOT)
-			# 背对目标球门 倒挂金钩
+	elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
+		if ball.can_air_interact():
+			if player.velocity == Vector2.ZERO:
+				# 如果玩家面向目标球门 凌空抽射
+				if player.is_facing_target_goal():
+					transition_state(Player.State.VELLY_SHOOT)
+				# 背对目标球门 倒挂金钩
+				else:
+					transition_state(Player.State.BICYCLE_SHOOT)
 			else:
-				transition_state(Player.State.BICYCLE_SHOOT)
-		else:
-			transition_state(Player.State.HEADER)
-	
-	if player.velocity != Vector2.ZERO and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-		state_transition_requested.emit(Player.State.TACKLING)
+				transition_state(Player.State.HEADER)
+		elif player.velocity != Vector2.ZERO:
+			state_transition_requested.emit(Player.State.TACKLING)
+
+func can_carry_body() -> bool:
+	return player.role != Player.Role.GOALIE
