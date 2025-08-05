@@ -100,7 +100,7 @@ func process_gravity(delta: float):
 
 func setup_current_ai_behavior() -> void:
 	current_ai_behavior = ai_behavior_factory.get_ai_hehavior(role)
-	current_ai_behavior.setup(ball, self, opponent_detection_area)
+	current_ai_behavior.setup(ball, self, opponent_detection_area, teammate_detection_area)
 	current_ai_behavior.name = "AI Behavior"
 	add_child(current_ai_behavior)
 
