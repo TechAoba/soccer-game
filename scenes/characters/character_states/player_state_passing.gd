@@ -6,7 +6,9 @@ func _enter_tree() -> void:
 	player.velocity = Vector2.ZERO
 	
 func on_animation_complete() -> void:
-	var pass_target := find_teammate_in_view()
+	var pass_target := state_data.pass_target
+	if pass_target == null:
+		find_teammate_in_view()
 	# 玩家传球时前方没有人，则像玩家朝向传球一定距离
 	if pass_target == null:
 		ball.pass_to(ball.position + player.heading * player.speed)

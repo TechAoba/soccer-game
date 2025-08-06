@@ -23,4 +23,6 @@ func _process(delta: float) -> void:
 		# 切换到shoot状态时，传递射门的角度和力度
 		var state_data = PlayerStateData.build().set_shoot_direction(shot_direction).set_shoot_power(shoot_power)
 		transition_state(Player.State.SHOOTING, state_data)
-		
+
+func can_pass() -> bool:
+	return true
