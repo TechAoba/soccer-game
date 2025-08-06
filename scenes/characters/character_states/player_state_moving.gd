@@ -20,16 +20,18 @@ func hanle_human_movement():
 	
 	if player.velocity != Vector2.ZERO:
 		teammate_detection_area.rotation = player.velocity.angle()
-	
-	if player.has_ball():
-		if KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.PASS):
+		
+	if KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.PASS):
+		if player.has_ball():
 			transition_state(Player.State.PASSING)
-		elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-			transition_state(Player.State.PREP_SHOOT)
-	elif can_teammate_pass_ball() and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.PASS):
-		ball.carrier.get_pass_request(player)
+		elif can_teammate_pass_ball():
+			ball.carrier.get_pass_request(player)
+		else:
+			player.swap_requested.emit(player)
 	elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-		if ball.can_air_interact():
+		if player.has_ball():
+			transition_state(Player.State.PREP_SHOOT)
+		elif ball.can_air_interact():
 			if player.velocity == Vector2.ZERO:
 				# 如果玩家面向目标球门 凌空抽射
 				if player.is_facing_target_goal():
@@ -40,7 +42,7 @@ func hanle_human_movement():
 			else:
 				transition_state(Player.State.HEADER)
 		elif player.velocity != Vector2.ZERO:
-			state_transition_requested.emit(Player.State.TACKLING)
+			transition_state(Player.State.TACKLING)
 
 func can_carry_body() -> bool:
 	return player.role != Player.Role.GOALIE
