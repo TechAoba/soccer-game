@@ -6,7 +6,7 @@ signal swap_requested(player: Player)
 enum ControlScheme { CPU, P1, P2 }
 enum Role { GOALIE, DEFENSE, MIDFIELD, OFFENSE }
 enum SkinColor { LIGHT, MEDIUM, DARK }
-enum State { MOVING, TACKLING, RECOVERING, PREP_SHOOT, SHOOTING, PASSING, HEADER, VELLY_SHOOT, BICYCLE_SHOOT, CHEST_CONTROL, HURT, DIVING, CELEBRATING, MOURNING }
+enum State { MOVING, TACKLING, RECOVERING, PREP_SHOOT, SHOOTING, PASSING, HEADER, VELLY_SHOOT, BICYCLE_SHOOT, CHEST_CONTROL, HURT, DIVING, CELEBRATING, MOURNING, RESETING }
 
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.CPU : preload("res://assets/art/props/cpu.png"),
@@ -44,6 +44,7 @@ var fullname := ""
 var heading := Vector2.RIGHT
 var height := 0.0
 var height_velocity := 0.0
+var kickoff_position := Vector2.ZERO
 var role := Player.Role.MIDFIELD
 var skin_color := Player.SkinColor.MEDIUM
 var spawn_position := Vector2.ZERO
@@ -79,7 +80,8 @@ func set_shader_properties() -> void:
 
 
 func initialize(context_position: Vector2, context_ball: Ball, context_own_goal: Goal, 
-		context_target_goal: Goal, context_player_data: PlayerResource, context_country: String):
+		context_target_goal: Goal, context_player_data: PlayerResource, context_country: String,
+		context_kickoff_position: Vector2):
 	position = context_position
 	ball = context_ball
 	own_goal = context_own_goal
@@ -91,6 +93,7 @@ func initialize(context_position: Vector2, context_ball: Ball, context_own_goal:
 	skin_color = context_player_data.skin_color
 	heading = Vector2.LEFT if target_goal.position.x < position.x else Vector2.RIGHT
 	country = context_country
+	kickoff_position = context_kickoff_position
 
 func process_gravity(delta: float):
 	if height > 0 or height_velocity > 0:
@@ -134,7 +137,11 @@ func set_heading():
 		heading = Vector2.RIGHT
 	elif velocity.x < 0:
 		heading = Vector2.LEFT
-	
+
+func face_towards_target_goal() -> void:
+	if not is_facing_target_goal():
+		heading = heading * -1
+
 
 func flip_sprite() -> void:
 	if heading == Vector2.RIGHT:
@@ -190,3 +197,6 @@ func is_facing_target_goal() -> bool:
 
 func can_carry_body() -> bool:
 	return current_state != null and current_state.can_carry_body()
+
+func is_ready_for_kickoff() -> bool:
+	return current_state != null and current_state.is_ready_for_kickoff()

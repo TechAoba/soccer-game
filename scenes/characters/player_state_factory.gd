@@ -13,6 +13,7 @@ func _init() -> void:
 		Player.State.HURT: PlayerStateHurt,
 		Player.State.MOVING: PlayerStateMoving,
 		Player.State.PREP_SHOOT: PlayerStatePrepShoot,
+		Player.State.RESETING: PlayerStateReseting,
 		Player.State.RECOVERING: PlayerStateRecovering,
 		Player.State.SHOOTING: PlayerStateShooting,
 		Player.State.PASSING: PlayerStatePassing,

@@ -44,10 +44,6 @@ func get_bicircular_weight(position: Vector2, center_target: Vector2
 	# 插值
 	return lerpf(inner_circular_weight, outer_circular_weight, distance_to_inner_radius / close_range_distance)
 
-func face_towards_target_goal() -> void:
-	if not player.is_facing_target_goal():
-		player.heading = player.heading * -1
-
 func is_ball_possessed_by_opponent() -> bool:
 	return ball.carrier != null and ball.carrier.country != player.country
 

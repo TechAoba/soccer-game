@@ -46,3 +46,6 @@ func can_carry_body() -> bool:
 
 func can_pass() -> bool:
 	return false
+
+func is_ready_for_kickoff() -> bool:
+	return false
