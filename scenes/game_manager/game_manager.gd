@@ -30,3 +30,21 @@ func is_coop() -> bool:
 	
 func is_single_player() -> bool:
 	return player_setup[1].is_empty()
+
+func is_game_tied() -> bool:
+	return score[0] == score[1]
+	
+func is_time_up() -> bool:
+	return time_left <= 0
+
+func get_winner_country() -> String:
+	assert(not is_game_tied())
+	return countries[0] if countries[0] > countries[1] else countries[1]
+
+func increate_score(country_scored_on: String) -> void:
+	var index_country_scoring := 1 if country_scored_on == countries[0] else 0
+	score[index_country_scoring] += 1
+	GameEvents.score_changed.emit()
+
+func has_someone_scored() -> bool:
+	return score[0] or score[1] > 0

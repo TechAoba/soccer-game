@@ -88,6 +88,7 @@ func on_team_reset() -> void:
 	is_checking_for_kickoff_readiness = true
 
 func setup_control_schemes() -> void:
+	reset_control_schemes()
 	var p1_country := GameManager.player_setup[0]
 	var player_squad := squad_home if squad_home[0].country == p1_country else squad_away
 	# 合作模式
@@ -102,6 +103,11 @@ func setup_control_schemes() -> void:
 		var p2_squad := squad_home if player_squad == squad_away else squad_away
 		player_squad[5].set_control_scheme(Player.ControlScheme.P1)
 		p2_squad[5].set_control_scheme(Player.ControlScheme.P2)
+
+func reset_control_schemes() -> void:
+	for squad in [squad_home, squad_away]:
+		for player: Player in squad:
+			player.set_control_scheme(Player.ControlScheme.CPU)
 
 func check_for_kickoff_readiness() -> void:
 	for squad in [squad_home, squad_away]:
