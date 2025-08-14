@@ -16,6 +16,10 @@ var vx := 0.0
 func _enter_tree() -> void:
 	assert(carrier != null, "carrier can not be null!")
 	kick_period = TAU / DRIBBLE_FREQUENCY
+	if carrier.country == GameManager.countries[0]:
+		GameEvents.ball_possessed.emit(carrier.fullname, true)
+	else:
+		GameEvents.ball_possessed.emit(carrier.fullname, false)
 
 func _process(delta: float) -> void:
 	if carrier.velocity != Vector2.ZERO:
@@ -40,3 +44,6 @@ func _process(delta: float) -> void:
 
 	ball.position = carrier.position + Vector2(vx + carrier.heading.x * OFFSET_FROM_PLAYER.x, OFFSET_FROM_PLAYER.y)
 	
+
+func _exit_tree() -> void:
+	GameEvents.ball_released.emit()
