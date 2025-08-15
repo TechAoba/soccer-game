@@ -12,7 +12,9 @@ func _enter_tree() -> void:
 	# 竖向缩放，让球更有运动感
 	sprite.scale.y = SHOOT_SPRITE_SCALE
 	ball.height = SHOOT_HEIGHT
-
+	shot_particles.emitting = true
+	GameEvents.impact_received.emit(ball.position, true)
+	
 
 func _process(delta: float) -> void:
 	if Time.get_ticks_msec() - time_since_shoot > DURATION_SHOOT:
@@ -23,3 +25,4 @@ func _process(delta: float) -> void:
 
 func _exit_tree() -> void:
 	sprite.scale.y = 1.0
+	shot_particles.emitting = false
