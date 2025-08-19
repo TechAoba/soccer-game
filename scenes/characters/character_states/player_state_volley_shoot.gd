@@ -1,5 +1,5 @@
 extends PlayerState
-class_name PlayerStateVellyShoot
+class_name PlayerStateVolleyShoot
 
 const BALL_HEIGHT_MIN := 1.0
 const BALL_HEIGHT_MAX := 20.0
@@ -15,6 +15,7 @@ func on_body_entered(contact_ball: Ball) -> void:
 		var destination := target_goal.get_random_target_position()
 		var direction := ball.position.direction_to(destination)
 		ball.shoot(direction * player.power * BONUS_POWER)
+		SoundPlayer.play(SoundPlayer.Sound.POWERSHOT)
 
 
 func on_animation_complete() -> void:

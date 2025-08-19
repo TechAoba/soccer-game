@@ -16,3 +16,4 @@ func on_animation_complete() -> void:
 
 func shoot_ball() -> void:
 	ball.shoot(state_data.shoot_direction * state_data.shoot_power)
+	SoundPlayer.play(SoundPlayer.Sound.SHOT)

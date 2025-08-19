@@ -25,7 +25,7 @@ func perform_ai_movement() -> void:
 			
 	total_steering_force = total_steering_force.limit_length(1.0)
 	player.velocity = total_steering_force * player.speed
-	
+
 func perform_ai_decision() -> void:
 	if is_ball_possessed_by_opponent() and player.position.distance_to(ball.position) < TACKLE_DISTANCE and randf() < TACKLE_PROBABILITY:
 		player.switch_state(Player.State.TACKLING)

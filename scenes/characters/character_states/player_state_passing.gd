@@ -4,7 +4,9 @@ class_name PlayerStatePassing
 func _enter_tree() -> void:
 	animation_player.play("shooting")
 	player.velocity = Vector2.ZERO
-	
+	SoundPlayer.play(SoundPlayer.Sound.PASS)
+
+
 func on_animation_complete() -> void:
 	var pass_target := state_data.pass_target
 	if pass_target == null:
