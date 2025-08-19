@@ -35,7 +35,7 @@ func hanle_human_movement():
 			if player.velocity == Vector2.ZERO:
 				# 如果玩家面向目标球门 凌空抽射
 				if player.is_facing_target_goal():
-					transition_state(Player.State.VELLY_SHOOT)
+					transition_state(Player.State.VOLLEY_SHOOT)
 				# 背对目标球门 倒挂金钩
 				else:
 					transition_state(Player.State.BICYCLE_SHOOT)
