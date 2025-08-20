@@ -19,7 +19,6 @@ func _init() -> void:
 func _ready() -> void:
 	time_left = DURATION_TIME_SEC
 	GameEvents.impact_received.connect(on_impact_received.bind())
-	
 
 func _process(_delta: float) -> void:
 	if get_tree().paused and Time.get_ticks_msec() - time_since_paused > DURATION_IMPACT_PAUSE:
