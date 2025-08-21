@@ -16,7 +16,7 @@ var vx := 0.0
 func _enter_tree() -> void:
 	assert(carrier != null, "carrier can not be null!")
 	kick_period = TAU / DRIBBLE_FREQUENCY
-	if carrier.country == GameManager.countries[0]:
+	if carrier.country == GameManager.current_match.country_home:
 		GameEvents.ball_possessed.emit(carrier.fullname, true)
 	else:
 		GameEvents.ball_possessed.emit(carrier.fullname, false)
